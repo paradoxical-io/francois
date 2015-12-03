@@ -1,0 +1,29 @@
+<main>
+    <div class="row">
+        <h1>Templates</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Template Name</th>
+                <th>Parameters</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tr *ng-for="#template of templates">
+                <td><a [router-link]="['/Jobs', { templateName: template.name }]" title="view jobs">{{template.name}}</a></td>
+                <td>
+                    <table>
+                        <thead><tr><th>Name</th><th>Default</th></tr></thead>
+                        <tr *ng-for="#param of template.parameters">
+                            <td>{{param.name}}</td>
+                            <td><code>{{param.defaultValue}}</code></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a [router-link]="['/Create', { templateName: template.name }]" class="success button">USE {{template.name}}</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>

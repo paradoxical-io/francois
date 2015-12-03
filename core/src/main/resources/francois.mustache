@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Francois</title>
+    <link href="/assets/foundation-6/css/foundation.css" rel="stylesheet"/>
+</head>
+<body>
+
+<francois-app><h1>loading...</h1></francois-app>
+
+<script src="https://code.angularjs.org/tools/system.js"></script>
+<script src="https://code.angularjs.org/tools/typescript.js"></script>
+<script src="https://code.angularjs.org/2.0.0-alpha.44/angular2.dev.js"></script>
+<script src="https://code.angularjs.org/2.0.0-alpha.44/http.dev.js"></script>
+<script src="https://code.angularjs.org/2.0.0-alpha.44/router.dev.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="/assets/foundation-6/js/foundation.js"></script>
+
+<script>
+    System.config({
+        baseURL: '/',
+        transpiler: 'typescript',
+        typescriptOptions: {
+            emitDecoratorMetadata: true
+        },
+        map: {
+            francois: 'assets/francois'
+        },
+        packages: {
+            'francois': {
+                defaultExtension: 'ts'
+            }
+        }
+    });
+    System.import('francois/app');
+</script>
+</body>
+</html>

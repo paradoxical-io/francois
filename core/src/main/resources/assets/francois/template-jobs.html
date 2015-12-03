@@ -1,0 +1,26 @@
+<main>
+    <div class="row">
+        <h1>Jobs for {{templateName}}</h1>
+        <a (click)="reapplyTemplate($event);" href="#" class="button">Reapply template to all jobs</a>
+        <table>
+            <thead>
+            <tr>
+                <th>Job Name</th>
+                <th>Config</th>
+            </tr>
+            </thead>
+            <tr *ng-for="#job of jobs">
+                <td>{{job.jobName}}</td>
+                <td>
+                    <table>
+                        <thead><tr><th>Name</th><th>Value</th></tr></thead>
+                        <tr *ng-for="#param of job.config.parameters">
+                            <td>{{param.name}}</td>
+                            <td><code>{{param.value}}</code></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
