@@ -1,5 +1,6 @@
 package io.paradoxical.francois.healthChecks;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.hubspot.dropwizard.guice.InjectableHealthCheck;
 import io.paradoxical.francois.ServiceConfiguration;
@@ -12,6 +13,7 @@ public class JenkinsHealthCheck extends InjectableHealthCheck {
     private final ServiceConfiguration configuration;
     private final Provider<JenkinsApiClient> clientProvider;
 
+    @Inject
     public JenkinsHealthCheck(ServiceConfiguration configuration, Provider<JenkinsApiClient> clientProvider) {
         this.configuration = configuration;
         this.clientProvider = clientProvider;

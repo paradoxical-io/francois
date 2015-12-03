@@ -289,6 +289,12 @@
                 <groupId>com.squareup.retrofit</groupId>
                 <artifactId>converter-jackson</artifactId>
                 <version>${retrofit.converter.jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
 
