@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-if [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "${IS_SECURE_BUILD}" ]; then
+
   mvn clean deploy --settings settings.xml -DskipTests
 
   SHA_SHORT=`git rev-parse --short HEAD`
