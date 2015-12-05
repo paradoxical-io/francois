@@ -1,8 +1,8 @@
-# François
+# io.paradoxical.francois
 
 [![Build Status](https://travis-ci.org/paradoxical-io/francois.svg?branch=master)](https://travis-ci.org/paradoxical-io/francois)
 
-François is a dropwizard.io api and web application for templatizing jenkins jobs. François is available as a docker image: https://hub.docker.com/r/onoffswitch/francois/
+François is a dropwizard.io api and web application for templatizing jenkins jobs. François is available as a docker image: https://hub.docker.com/r/paradoxical/francois/
 
 The app deploys to the port `9090` with its dropwizard admin port on `9099`.
 
