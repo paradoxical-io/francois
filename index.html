@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Francois by paradoxical-io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Francois</h1>
+      <h2 class="project-tagline">Keep your Jenkins jobs in sync to a template with françois</h2>
+      <a href="https://github.com/paradoxical-io/francois" class="btn">View on GitHub</a>
+      <a href="https://github.com/paradoxical-io/francois/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/paradoxical-io/francois/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="ioparadoxicalfrancois" class="anchor" href="#ioparadoxicalfrancois" aria-hidden="true"><span class="octicon octicon-link"></span></a>io.paradoxical.francois</h1>
+
+<p><a href="https://travis-ci.org/paradoxical-io/francois"><img src="https://travis-ci.org/paradoxical-io/francois.svg?branch=master" alt="Build Status"></a></p>
+
+<p>François is a dropwizard.io api and web application for templatizing jenkins jobs. François is available as a docker image: <a href="https://hub.docker.com/r/paradoxical/francois/">https://hub.docker.com/r/paradoxical/francois/</a></p>
+
+<p>The app deploys to the port <code>9090</code> with its dropwizard admin port on <code>9099</code>.</p>
+
+<p>All templates are stored and tracked using jenkins views, so no external database is required.</p>
+
+<h3>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>Francois gets its running configuration from either its configuration yaml file (configuration.yml) or the environment.</p>
+
+<p>The following environment variables are avaiable</p>
+
+<ul>
+<li>
+<code>JENKINS_URL</code>: this should point to your jenkins machine. example: <code>http://jenkins.jakeswenson.github.com/</code>
+</li>
+<li>
+<code>JENKINS_USER</code>: this is the user created to manage jenkins and create jobs. example: <code>francois</code>
+</li>
+<li>
+<code>JENKINS_TOKEN</code>: this should be the user token for that jenkins user above. You can get this from the users jenkins configuration page.</li>
+</ul>
+
+<p>Francois useses two views to manage all available tempaltes and templatized jobs:</p>
+
+<ul>
+<li>
+<code>Templates</code> - this is used to get a list of templates</li>
+<li>
+<code>Templatized</code> - this is used to track all jobs created from templates</li>
+</ul>
+
+<p>so be sure create them in your jenkins instance.</p>
+
+<p>It doesn't matter what type of view they are, but it's simplest to create list views.</p>
+
+<h3>
+<a id="using-the-docker-image" class="anchor" href="#using-the-docker-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the docker image</h3>
+
+<p>Run the docker image with:</p>
+
+<pre><code>docker run -it \
+    -e JENKINS_URL='http://jenkins.jakeswenson.github.com/' \
+    -e JENKINS_USER=francois \
+    -e JENKINS_TOKEN=USER_JENKINS_TOKEN \
+    -p 9090:9090 \
+    -p 9099:9099 \
+    -v `pwd`/logs/core:/data/logs \
+    onoffswitch/francois
+</code></pre>
+
+<h1>
+<a id="adding-a-template" class="anchor" href="#adding-a-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding a template</h1>
+
+<p>Adding templates are easy, simply create a job in jenkins and add it to the <code>Templates</code> view.</p>
+
+<p>Variables are do using <code>{% %}</code> tags. example: <code>{% Git.Repo %}</code>.
+You can also supply a default value in a variable using <code>|</code>. example: <code>{% Git.UserName | jakeswenson %}</code></p>
+
+<h2>
+<a id="building-your-own-francois-docker-container" class="anchor" href="#building-your-own-francois-docker-container" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building your own francois docker container</h2>
+
+<p>Builds are done using maven and maven docker plugin. Use:</p>
+
+<pre><code>mvn clean package
+
+./scripts/run-core.sh
+</code></pre>
+
+<h2>
+<a id="making-changes-to-the-ui" class="anchor" href="#making-changes-to-the-ui" aria-hidden="true"><span class="octicon octicon-link"></span></a>Making changes to the UI</h2>
+
+<p>François UI is built with Angular2 and typescript. make sure you have typscript installed:</p>
+
+<pre><code>sudo npm install --global typescript
+</code></pre>
+
+<p>and then install the dependencies:</p>
+
+<pre><code>npm install
+</code></pre>
+
+<p>Please file any issues you might find. Enjoy!</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/paradoxical-io/francois">Francois</a> is maintained by <a href="https://github.com/paradoxical-io">paradoxical-io</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
