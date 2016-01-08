@@ -38,7 +38,7 @@ docker run -it \
     -p 9090:9090 \
     -p 9099:9099 \
     -v `pwd`/logs/core:/data/logs \
-    onoffswitch/francois
+    paradoxical/francois
 ```
 
 # Adding a template
