@@ -62,7 +62,7 @@
 
 
         <!-- Library Versions -->
-        <io.paradoxical.common.test>1.0-SNAPSHOT</io.paradoxical.common.test>
+        <io.paradoxical.common.test>1.1-SNAPSHOT</io.paradoxical.common.test>
         <godaddy.logging.version>1.0</godaddy.logging.version>
 
         <dropwizard.version>0.9.1</dropwizard.version>
