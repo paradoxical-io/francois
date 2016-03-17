@@ -25,6 +25,10 @@ export class FrancoisApi {
         return this.http.get(`/api/v1/francois/templates/${templateName}/jobs`);
     }
 
+    createTemplate(templateName: string){
+        return this.http.post(`/api/v1/francois/templates/${templateName}`);
+    }
+
     createJob(templateName: string, job: JobApplication) {
         return this.http.post(`/api/v1/francois/templates/${templateName}/jobs`, JSON.stringify(job), {
             headers: {
