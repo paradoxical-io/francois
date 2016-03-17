@@ -31,9 +31,13 @@ First, lets create a template by clicking "new template" in the top nav bar:
 
 ![Create a template](/images/create_template_francois.png)
 
+---
+
 This will create a template jenkins job that is in the `Templates` view.
 
 ![Template in jenkins](/images/templates_view_jenkins.png)
+
+---
 
 Now we can edit our template and add in template fields on jenkins. Notice how we're creating a template of:
 
@@ -45,9 +49,13 @@ Which says that we want there to be a template value of "Build.Command" with a d
 
 ![Editing a template](/images/jenkins_template_sample.png)
 
+---
+
 If we go back to francois and hit refresh, we should see our templated fields, and you can see that `Build.Command` is picked up a `foo`.
 
 ![Francois fields](/images/francois_template_sample.png)
+
+---
 
 From here we can create jobs off our template. Again, notice how the default value of `foo` is printed next to the template value, but 
 we can override it with `bar`
@@ -58,13 +66,19 @@ Notice how it lets us override the default value of a template, or use the defau
 
 Had we used the default value, the parameter list would be empty. Francois only shows you things that are overriden.
 
+---
+
 If we hit save, our job will create and we can see it in francois
 
 ![Created job](/images/created_job.png)
 
+---
+
 And we should see it in jenkins
 
 ![Created jenkins](/images/created_jenkins_job.png)
+
+---
 
 If we want to see what our actual job looks like we can see our templated values actually applied!  Notice the value in the `execute shell` block
 
