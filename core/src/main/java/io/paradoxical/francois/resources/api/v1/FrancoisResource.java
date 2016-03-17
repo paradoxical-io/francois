@@ -84,8 +84,8 @@ public class FrancoisResource {
     }
 
     @POST
-    @Path("/templates/default")
-    @ApiOperation(value = "Create job")
+    @Path("/templates/{templateName}")
+    @ApiOperation(value = "Create new template")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response createDefaultTemplate(@PathParam("templateName") String templateName) {
         try {

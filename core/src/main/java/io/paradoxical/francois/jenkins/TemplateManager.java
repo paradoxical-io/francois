@@ -6,6 +6,8 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.squareup.okhttp.ResponseBody;
 import io.paradoxical.francois.exceptions.JobCreateFailureException;
+import io.paradoxical.francois.jenkins.api.ApiConstants;
+import io.paradoxical.francois.jenkins.api.JenkinsApi;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
@@ -45,6 +47,7 @@ public class TemplateManager implements JenkinsTemplateManager {
     public List<TemplateParameter> getAllParameters(String templateName) throws IOException {
 
         final JobTemplate jobTemplate = getJobTemplate(templateName);
+
         final List<PromotionTemplate> promotions = promotionTemplateLoader.getPromotionTemplates(templateName);
 
         return getLinearizedParameters(templateParameterResolver.resolveDefaultParameters(jobTemplate, promotions));
@@ -103,7 +106,7 @@ public class TemplateManager implements JenkinsTemplateManager {
                            throw new RuntimeException(message);
                        }
 
-                       final Response<ResponseBody> addToViewResponse = jenkinsClient.trackTemplatizedJob(newJobName).execute();
+                       final Response<ResponseBody> addToViewResponse = jenkinsClient.addJobToView(ApiConstants.TemplatizedViewName, newJobName).execute();
 
                        if (!addToViewResponse.isSuccess()) {
                            final String message = String.format("Failed to add created job '%s' to templatized job list view", newJobName);

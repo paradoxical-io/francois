@@ -10,17 +10,16 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 
 public interface JenkinsApi {
-
-    @GET("/view/Templates/api/json?tree=jobs[name,description]")
+    @GET("/view/" + ApiConstants.TemplateVewName + "/api/json?tree=jobs[name,description]")
     Call<JobList> getJobTemplates();
 
-    @POST("/view/Templatized/api/json?tree=jobs[name,description]")
+    @POST("/view/" + ApiConstants.TemplatizedViewName + "/api/json?tree=jobs[name,description]")
     Call<JobList> getTemplatizedJobs();
 
     @GET("/job/api/json?tree=jobs[name,description]")
     Call<JobList> getAllJobs();
 
-    @GET("/view/Templates/job/{jobName}/config.xml")
+    @GET("/view/" + ApiConstants.TemplateVewName + "/job/{jobName}/config.xml")
     Call<ResponseBody> getJobConfigRaw(@Path("jobName") String jobName);
 
     @POST("/createItem")
@@ -28,6 +27,12 @@ public interface JenkinsApi {
 
     @POST("/job/{jobName}/config.xml")
     Call<ResponseBody> updateJobRaw(@Path("jobName") String jobName, @Body RequestBody configXml);
+
+    @GET("/view/{name}/config.xml")
+    Call<ResponseBody> getViewConfig(@Path("name") String name);
+
+    @POST("/createView")
+    Call<ResponseBody> createView(@Query("name") String name, @Body RequestBody configXml);
 
     @GET("/job/{jobName}/promotion/api/json?tree=processes[name]")
     Call<PromotionList> getJobPromotions(@Path("jobName") String jobName);
@@ -49,7 +54,7 @@ public interface JenkinsApi {
             @Path("promotionName") String promotionName,
             @Body RequestBody configXml);
 
-    @POST("/view/Templatized/addJobToView")
-    Call<ResponseBody> trackTemplatizedJob(@Query("name") String jobName);
+    @POST("/view/{viewName}/addJobToView")
+    Call<ResponseBody> addJobToView(@Path("viewName") String viewName, @Query("name") String jobName);
 }
 

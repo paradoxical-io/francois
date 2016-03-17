@@ -8,6 +8,34 @@ The app deploys to the port `9090` with its dropwizard admin port on `9099`.
 
 All templates are stored and tracked using jenkins views, so no external database is required.
 
+### Creating templates
+ 
+Create a template that will serve as a template for other jobs.  Templatable fields can be added _anywhere_ in the jenkins config 
+and are of the form
+
+```
+{% TemplateName | defaultValue %}
+```
+
+For example:
+
+```
+echo {% EchoParam %}
+```
+
+Creates a template that has no default value. However,
+
+```
+echo {% EchoParam | foo %}
+```
+
+Will use `foo` if there is no supplied parameter.
+
+Templates are stored in a view called `Templates` and jobs that are created from templates are stored in a view called `Templatized`.
+
+Templated values are stored in the jenkins jobs description, so they can be reapplied later!
+
+
 ### Configuration
 Francois gets its running configuration from either its configuration yaml file (configuration.yml) or the environment.
 
