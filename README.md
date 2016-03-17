@@ -4,9 +4,24 @@
 
 François is a dropwizard.io api and web application for templatizing jenkins jobs. François is available as a docker image: https://hub.docker.com/r/paradoxical/francois/
 
-The app deploys to the port `9090` with its dropwizard admin port on `9099`.
-
 All templates are stored and tracked using jenkins views, so no external database is required.
+
+### Using the docker image
+
+Run the docker image with:
+
+```
+docker run -it \
+    -e JENKINS_URL='http://jenkins.paradoxical.io/' \
+    -e JENKINS_USER=francois \
+    -e JENKINS_TOKEN=USER_JENKINS_TOKEN \
+    -p 9090:9090 \ 
+    -p 9099:9099 \ 
+    -v `pwd`/logs/core:/data/logs \
+    paradoxical/francois
+```
+
+The app deploys to the port `9090` with its dropwizard admin port on `9099`.
 
 ### Walkthrough
 
@@ -110,20 +125,6 @@ so be sure create them in your jenkins instance.
 
 It doesn't matter what type of view they are, but it's simplest to create list views.
 
-### Using the docker image
-
-Run the docker image with:
-
-```
-docker run -it \
-    -e JENKINS_URL='http://jenkins.jakeswenson.github.com/' \
-    -e JENKINS_USER=francois \
-    -e JENKINS_TOKEN=USER_JENKINS_TOKEN \
-    -p 9090:9090 \
-    -p 9099:9099 \
-    -v `pwd`/logs/core:/data/logs \
-    paradoxical/francois
-```
 
 ## Building your own francois docker container
 
