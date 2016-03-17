@@ -68,7 +68,9 @@ Had we used the default value, the parameter list would be empty. Francois only 
 
 ---
 
-If we hit save, our job will create and we can see it in francois
+If we hit save, our job will create and we can see it in francois.
+
+If in the future we want to update our template job, we can re-apply that template to _all_ jobs that are based off the template! This is the real power of François.
 
 ![Created job](/images/created_job.png)
 
