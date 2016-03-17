@@ -9,17 +9,6 @@ server:
     - type: http
       port: 9091
 
-## Dropwizard metrics needs to be updated to 0.9.1
-##
-metrics:
-  reporters:
-    - type: console
-      timeZone: UTC
-      output: stdout
-      durationUnit: milliseconds
-      rateUnit: seconds
-      frequency: 120 seconds
-
 # Logging settings.
 logging:
 

@@ -1,5 +1,6 @@
 package io.paradoxical.francois.jenkins;
 
+import io.paradoxical.francois.exceptions.JobCreateFailureException;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
 import io.paradoxical.francois.jenkins.templates.JobTemplate;
 import io.paradoxical.francois.jenkins.templates.TemplateParameter;
@@ -17,4 +18,6 @@ public interface JenkinsTemplateManager {
     List<JobApplicationModel> getTemplatizedJobs(String templateName) throws IOException, Exception;
 
     void reapplyTemplate(String templateName) throws Exception;
+
+    void createDefaultTemplate(String templateName) throws JobCreateFailureException;
 }

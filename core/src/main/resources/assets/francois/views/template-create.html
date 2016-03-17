@@ -1,0 +1,26 @@
+<main>
+    <div class="row">
+        <h1>Create Template</h1>
+
+        <div>
+            <span class="header">Parameters</span>
+
+            <div class="row">
+                <span class="large-4 columns">
+                    <input [(ng-model)]="templateName" type="text" placeholder="New Template Name"/>
+                </span>
+                <button *ng-if="isCreateable" type="button" class="button large-2 columns right" (click)="createTemplate()">
+                    Create
+                </button>
+            </div>
+            <div *ng-if="createSucceeded" class="row">
+                <div class="callout secondary">
+                    <h5>Template created</h5>
+                    <a [router-link]="['/Templates' ]" class="button">
+                        View all templates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

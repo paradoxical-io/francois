@@ -8,7 +8,6 @@ import java.util.List;
 public class DefaultApplicationModules {
     public static List<Module> getModules() {
         return Arrays.asList(
-                new DataAccessModule(),
                 new JsonMapperModule(),
                 new JenkinsApiModule(),
                 new JenkinsTemplateManagerModule());

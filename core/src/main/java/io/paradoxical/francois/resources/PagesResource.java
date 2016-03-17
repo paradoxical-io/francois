@@ -22,7 +22,6 @@ public class PagesResource {
         return new IndexView("/francois.mustache");
     }
 
-
     public static class IndexView extends View {
         protected IndexView(String templateName) {
             super(templateName);

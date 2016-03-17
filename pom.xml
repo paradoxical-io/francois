@@ -62,8 +62,8 @@
 
 
         <!-- Library Versions -->
-        <io.paradoxical.common.test>1.1-SNAPSHOT</io.paradoxical.common.test>
-        <godaddy.logging.version>1.0</godaddy.logging.version>
+        <io.paradoxical.common.test>1.0</io.paradoxical.common.test>
+        <godaddy.logging.version>1.2.1</godaddy.logging.version>
 
         <dropwizard.version>0.9.1</dropwizard.version>
         <dropwizard.template.config.version>1.1.0</dropwizard.template.config.version>
@@ -76,6 +76,7 @@
         <retrofit.converter.jackson.version>2.0.0-beta2</retrofit.converter.jackson.version>
         <apache.commons.version>3.3.2</apache.commons.version>
         <javaslang.version>2.0.0-RC1</javaslang.version>
+        <commons.io>2.4</commons.io>
 
         <!-- Maven Plugin versions -->
         <maven.compiler.plugin.version>3.0</maven.compiler.plugin.version>
@@ -98,6 +99,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.godaddy</groupId>

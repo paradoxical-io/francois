@@ -3,9 +3,10 @@ import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TopNav} from './top-nav'
 import {FrancoisApi, JobApplication} from './services/francois'
 import Collator = Intl.Collator;
+import {Consts} from "./consts"
 
 @Component({
-    templateUrl: '/assets/francois/templates.html',
+    templateUrl: Consts.basePath + '/templates.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor]
 })
 export class Templates {
@@ -34,7 +35,7 @@ export class Templates {
 }
 
 @Component({
-    templateUrl: '/assets/francois/template-jobs.html',
+    templateUrl: Consts.basePath + '/template-jobs.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor]
 })
 export class TemplateJobs {
@@ -77,7 +78,35 @@ declare module Foundation {
 }
 
 @Component({
-    templateUrl: '/assets/francois/templates-create.html',
+    templateUrl: Consts.basePath + '/template-create.html',
+    directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor, NgIf, CORE_DIRECTIVES],
+})
+export class CreateTemplate {
+
+    public templateName:string;
+
+    public isCreateable:boolean = true;
+    public createSucceeded:boolean = false;
+
+    constructor(private francoisApi:FrancoisApi) {
+
+    }
+
+    createTemplate() {
+        this.isCreateable = false;
+        this.francoisApi.createTemplate(this.templateName)
+            .subscribe(r => {
+                console.log(r);
+                this.createSucceeded = true;
+            }, oops => {
+                console.log(oops);
+                this.isCreateable = true;
+            }, comp => console.log('Create finished'));
+    }
+}
+
+@Component({
+    templateUrl: Consts.basePath + '/job-create.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor, NgIf, CORE_DIRECTIVES],
 })
 export class CreateJob {
@@ -128,5 +157,4 @@ export class CreateJob {
         console.log(evt.target.value);
         this.newJobName = evt.target.value;
     }
-
 }

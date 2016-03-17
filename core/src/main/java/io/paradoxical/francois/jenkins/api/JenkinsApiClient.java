@@ -80,6 +80,14 @@ public final class JenkinsApiClient {
         return RequestBody.create(MediaType.parse("text/xml"), configXml);
     }
 
+    public Call<ResponseBody> getViewConfig(String viewName) {
+        return jenkinsApi.getViewConfig(viewName);
+    }
+
+    public Call<ResponseBody> createView(String viewName, String configXml){
+        return jenkinsApi.createView(viewName, createXmlRequest(configXml));
+    }
+
     public Call<PromotionList> getJobPromotions(final String templateName) {
         return jenkinsApi.getJobPromotions(templateName);
     }
@@ -88,8 +96,8 @@ public final class JenkinsApiClient {
         return jenkinsApi.getJobTemplates();
     }
 
-    public Call<ResponseBody> trackTemplatizedJob(final String jobName) {
-        return jenkinsApi.trackTemplatizedJob(jobName);
+    public Call<ResponseBody> addJobToView(String viewName, final String jobName) {
+        return jenkinsApi.addJobToView(viewName, jobName);
     }
 
     public Call<JobList> getTemplatizedJobs() {

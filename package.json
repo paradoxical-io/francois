@@ -1,0 +1,26 @@
+{
+  "name": "francois",
+  "version": "0.0.9",
+  "homepage": "http://francois.io",
+  "author": {
+    "name": "Jake Swenson",
+    "email": "jake@jakeswenson.com",
+    "url": "http://jakeswenson.com/"
+  },
+  "contributors": [
+    {
+      "name": "Jake Swenson",
+      "email": "jake@jakeswenson.com",
+      "url": "http://jakeswenson.com/"
+    },
+    {
+      "name": "Anton Kropp",
+      "email": "akropp@gmail.com",
+      "url": "http://onoffswitch.com/"
+    }
+  ],
+  "dependencies": {
+    "angular2": "2.0.0-alpha.44",
+    "systemjs": "^0.19.2"
+  }
+}

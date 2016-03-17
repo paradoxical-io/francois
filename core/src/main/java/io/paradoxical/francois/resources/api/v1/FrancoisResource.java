@@ -45,12 +45,12 @@ public class FrancoisResource {
     @GET
     @Path("/templates")
     @ApiOperation(value = "Get all templates")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK")})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response getAllTemplates() {
         try {
             final retrofit.Response<JobList> response = jenkinsApi.getJobTemplates().execute();
 
-            if(!response.isSuccess()){
+            if (!response.isSuccess()) {
                 return Response.serverError().build();
             }
 
@@ -65,13 +65,13 @@ public class FrancoisResource {
     @GET
     @Path("/templates/{templateName}/parameters")
     @ApiOperation(value = "Get template parameters")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK")})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response getTemplateParameters(@PathParam("templateName") String templateName) {
         try {
 
             final List<TemplateParameter> allParameters = templateManager.getAllParameters(templateName);
 
-            if(allParameters == null){
+            if (allParameters == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
 
@@ -84,9 +84,25 @@ public class FrancoisResource {
     }
 
     @POST
+    @Path("/templates/{templateName}")
+    @ApiOperation(value = "Create new template")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
+    public Response createDefaultTemplate(@PathParam("templateName") String templateName) {
+        try {
+            templateManager.createDefaultTemplate(templateName);
+
+            return Response.created(URI.create(String.format("./%s", templateName))).build();
+        }
+        catch (Exception e) {
+            logger.error(e, "Error");
+            return Response.serverError().build();
+        }
+    }
+
+    @POST
     @Path("/templates/{templateName}/jobs")
     @ApiOperation(value = "Create job")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK")})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response createFromTemplate(@PathParam("templateName") String templateName, TemplateApplicationRequest templateApplicationRequest) {
         try {
             templateManager.createJobFromTemplate(templateApplicationRequest.getNewJobName(), templateName, templateApplicationRequest.getParameters());
@@ -102,7 +118,7 @@ public class FrancoisResource {
     @PUT
     @Path("/templates/{templateName}/jobs")
     @ApiOperation(value = "Reapply template to all jobs")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK")})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response reapplyTemplate(@PathParam("templateName") String templateName) {
         try {
             templateManager.reapplyTemplate(templateName);
@@ -118,7 +134,7 @@ public class FrancoisResource {
     @GET
     @Path("/templates/{templateName}/jobs")
     @ApiOperation(value = "Get templatized jobs")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK")})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
     public Response getTemplatizedJobs(@PathParam("templateName") String templateName) {
         try {
             final List<JobApplicationModel> templatizedJobs = templateManager.getTemplatizedJobs(templateName);

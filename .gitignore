@@ -77,3 +77,5 @@ logs/
 results/
 
 dependency-reduced-pom.xml
+
+node_modules/
