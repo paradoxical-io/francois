@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.squareup.okhttp.ResponseBody;
+import io.paradoxical.francois.exceptions.JobCreateFailureException;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
@@ -28,13 +29,14 @@ public class TemplateManager implements JenkinsTemplateManager {
     private static final String TEMPLATE_SAVE_SLOT = "{$ Francois.Template.Params $}";
 
     private final JenkinsApiClient jenkinsClient;
-
+    private final DefaultJobManager defaultJobManager;
     private final TemplateParameterResolver templateParameterResolver;
     private final PromotionTemplateLoader promotionTemplateLoader;
 
     @Inject
-    public TemplateManager(JenkinsApiClient jenkinsClient) {
+    public TemplateManager(JenkinsApiClient jenkinsClient, DefaultJobManager defaultJobManager) {
         this.jenkinsClient = jenkinsClient;
+        this.defaultJobManager = defaultJobManager;
         templateParameterResolver = new TemplateParameterResolver();
         promotionTemplateLoader = new PromotionTemplateLoader(jenkinsClient);
     }
@@ -121,7 +123,6 @@ public class TemplateManager implements JenkinsTemplateManager {
 
     @Override
     public void reapplyTemplate(final String templateName) throws Exception {
-
         final List<JobApplicationModel> templatizedJobs = getTemplatizedJobs(templateName);
 
         final JobTemplate jobTemplate = getJobTemplate(templateName);
@@ -131,6 +132,11 @@ public class TemplateManager implements JenkinsTemplateManager {
         templatizedJobs.stream()
                        .forEach(job -> Try.run(() -> updateJobFromTemplate(jobTemplate, promotions, job))
                                           .orElseThrow(e -> new RuntimeException(String.format("Error updating job '%s'", job.getJobName()), e)));
+    }
+
+    @Override
+    public void createDefaultTemplate(final String templateName) throws JobCreateFailureException {
+        defaultJobManager.createNewTemplateJob(templateName);
     }
 
     private void updateJobFromTemplate(

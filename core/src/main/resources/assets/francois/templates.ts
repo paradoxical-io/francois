@@ -3,9 +3,10 @@ import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TopNav} from './top-nav'
 import {FrancoisApi, JobApplication} from './services/francois'
 import Collator = Intl.Collator;
+import {Consts} from "./consts"
 
 @Component({
-    templateUrl: '/assets/francois/templates.html',
+    templateUrl: Consts.basePath + '/templates.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor]
 })
 export class Templates {
@@ -34,7 +35,7 @@ export class Templates {
 }
 
 @Component({
-    templateUrl: '/assets/francois/template-jobs.html',
+    templateUrl: Consts.basePath + '/template-jobs.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor]
 })
 export class TemplateJobs {
@@ -77,7 +78,7 @@ declare module Foundation {
 }
 
 @Component({
-    templateUrl: '/assets/francois/templates-create.html',
+    templateUrl: Consts.basePath + '/templates-create.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor, NgIf, CORE_DIRECTIVES],
 })
 export class CreateJob {
