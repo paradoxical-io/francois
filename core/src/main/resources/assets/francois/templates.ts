@@ -7,6 +7,12 @@ import {Consts} from "./consts"
 
 declare var _;
 
+export class HttpUtils {
+    public static success(code) {
+        return code >= 200 && code < 300;
+    }
+}
+
 @Component({
     templateUrl: Consts.basePath + '/templates.html',
     directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor]
@@ -89,6 +95,7 @@ export class CreateTemplate {
 
     public isCreateable:boolean = true;
     public createSucceeded:boolean = false;
+    public createFailed:boolean = false;
 
     constructor(private francoisApi:FrancoisApi) {
 
@@ -96,13 +103,23 @@ export class CreateTemplate {
 
     createTemplate() {
         this.isCreateable = false;
+        this.createSucceeded = false;
+        this.createFailed = false;
         this.francoisApi.createTemplate(this.templateName)
             .subscribe(r => {
                 console.log(r);
-                this.createSucceeded = true;
+
+                if (!HttpUtils.success(r.status)) {
+                    this.createFailed = true;
+                    this.isCreateable = true;
+                }
+                else {
+                    this.createSucceeded = true;
+                }
             }, oops => {
                 console.log(oops);
                 this.isCreateable = true;
+                this.createFailed = true;
             }, comp => console.log('Create finished'));
     }
 }
@@ -121,6 +138,7 @@ export class CreateJob {
 
     public isCreateable:boolean = false;
     public createSucceeded:boolean = false;
+    public createFailed:boolean = false;
 
     constructor(private francoisApi:FrancoisApi,
                 private routeParams:RouteParams) {
@@ -142,16 +160,28 @@ export class CreateJob {
 
     createJob() {
         console.log(this.parameters);
+
         this.isCreateable = false;
+        this.createSucceeded = false;
+        this.createFailed = false;
+
         this.francoisApi.createJob(
             this.templateName,
             new JobApplication(this.newJobName, this.parameters.filter(p => !!p.value)))
             .subscribe(r => {
                 console.log(r);
-                this.createSucceeded = true;
+
+                if (!HttpUtils.success(r.status)) {
+                    this.createFailed = true;
+                    this.isCreateable = true;
+                }
+                else {
+                    this.createSucceeded = true;
+                }
             }, oops => {
                 console.log(oops);
                 this.isCreateable = true;
+                this.createFailed = true;
             }, comp => console.log('Create finished'));
     }
 
@@ -205,10 +235,10 @@ export class EditJob {
             });
     }
 
-    merge(jobParameters, templateValue){
-        var jobParameter = _.findWhere(jobParameters, { name : templateValue.name });
+    merge(jobParameters, templateValue) {
+        var jobParameter = _.findWhere(jobParameters, {name: templateValue.name});
 
-        if(jobParameter === undefined){
+        if (jobParameter === undefined) {
             return templateValue;
         }
 
@@ -222,12 +252,18 @@ export class EditJob {
     saveJob() {
         console.log(this.parameters);
         this.isCreateable = false;
-        this.francoisApi.createJob(
+        this.francoisApi.updateJob(
             this.templateName,
             new JobApplication(this.jobName, this.parameters.filter(p => !!p.value)))
             .subscribe(r => {
                 console.log(r);
                 this.createSucceeded = true;
+                this.isCreateable = true;
+
+                setTimeout(() => {
+                    $(document).foundation();
+                    this.createSucceeded = false;
+                }, 5000);
             }, oops => {
                 console.log(oops);
                 this.isCreateable = true;

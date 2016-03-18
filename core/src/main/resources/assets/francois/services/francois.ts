@@ -30,7 +30,7 @@ export class FrancoisApi {
     }
 
     updateJob(templateName: string, job: JobApplication) {
-        return this.http.post(`/api/v1/francois/templates/${templateName}/jobs/${job.jobName}`, JSON.stringify(job), {
+        return this.http.put(`/api/v1/francois/templates/${templateName}/jobs/${job.jobName}`, JSON.stringify(job), {
             headers: {
                 'Content-Type': 'application/json'
             }

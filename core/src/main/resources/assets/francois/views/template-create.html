@@ -21,6 +21,15 @@
                     </a>
                 </div>
             </div>
+            <div *ng-if="createFailed" class="row">
+                <div class="callout warning">
+                    <h5>Template not created</h5>
+
+                    <div>
+                        Does this template name already exist? Try a new name
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
