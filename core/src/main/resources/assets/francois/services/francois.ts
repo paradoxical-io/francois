@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/angular2';
 import {HTTP_PROVIDERS, Http, Request, RequestMethods} from 'angular2/http';
 
 export class JobApplication {
-    constructor(public newJobName: string, public parameters: any[]){
+    constructor(public jobName: string, public parameters: any[]){
 
     }
 }
@@ -27,6 +27,14 @@ export class FrancoisApi {
 
     createTemplate(templateName: string){
         return this.http.post(`/api/v1/francois/templates/${templateName}`);
+    }
+
+    updateJob(templateName: string, job: JobApplication) {
+        return this.http.post(`/api/v1/francois/templates/${templateName}/jobs/${job.jobName}`, JSON.stringify(job), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     createJob(templateName: string, job: JobApplication) {

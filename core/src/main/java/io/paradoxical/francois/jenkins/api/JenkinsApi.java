@@ -22,6 +22,9 @@ public interface JenkinsApi {
     @GET("/view/" + ApiConstants.TemplateVewName + "/job/{jobName}/config.xml")
     Call<ResponseBody> getJobConfigRaw(@Path("jobName") String jobName);
 
+    @GET("/view/" + ApiConstants.TemplateVewName + "/job/{jobName}/api/json?tree=description,name")
+    Call<JobModel> getJobJson(@Path("jobName") String jobName);
+
     @POST("/createItem")
     Call<ResponseBody> createJobRaw(@Query("name") String jobName, @Body RequestBody configXml);
 

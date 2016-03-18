@@ -8,15 +8,15 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TemplateApplicationRequest {
-    private final String newJobName;
+public class TemplateApplicationUpdateRequest {
+    private final String jobName;
     private final List<JobParameterValue> parameters;
 
     @JsonCreator
-    public TemplateApplicationRequest(
-            @JsonProperty("jobName") final String newJobName,
+    public TemplateApplicationUpdateRequest(
+            @JsonProperty("jobName") final String jobName,
             @JsonProperty("parameters") final List<JobParameterValue> parameters) {
-        this.newJobName = newJobName;
+        this.jobName = jobName;
         this.parameters = parameters;
     }
 }

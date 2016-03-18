@@ -10,6 +10,7 @@ import io.paradoxical.francois.jenkins.api.ApiConstants;
 import io.paradoxical.francois.jenkins.api.JenkinsApi;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
+import io.paradoxical.francois.jenkins.api.JobModel;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
 import io.paradoxical.francois.jenkins.templates.JobTemplate;
 import io.paradoxical.francois.jenkins.templates.JobTemplateApplicationConfig;
@@ -17,6 +18,7 @@ import io.paradoxical.francois.jenkins.templates.PromotionTemplate;
 import io.paradoxical.francois.jenkins.templates.TemplateParameter;
 import javaslang.Function2;
 import javaslang.control.Try;
+import retrofit.Call;
 import retrofit.Response;
 
 import java.io.IOException;
@@ -83,6 +85,19 @@ public class TemplateManager implements JenkinsTemplateManager {
         }
 
         return Collections.emptyList();
+    }
+
+    @Override
+    public void updateJobFromTemplate(final String jobName, final String templateName, final List<JobParameterValue> parameterValues) throws Exception {
+        final Response<String> jobConfig = jenkinsClient.getJobConfig(jobName).execute();
+
+        final JobTemplate jobTemplate = getJobTemplate(templateName);
+
+        final List<PromotionTemplate> promotions = promotionTemplateLoader.getPromotionTemplates(templateName);
+
+        final JobApplicationModel jobApplicationModel = new JobApplicationModel(jobName, new JobTemplateApplicationConfig(templateName, parameterValues));
+
+        updateJobFromTemplate(jobTemplate, promotions, jobApplicationModel);
     }
 
     @Override

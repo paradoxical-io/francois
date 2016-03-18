@@ -14,6 +14,7 @@ public interface JenkinsTemplateManager {
     JobTemplate getJobTemplate(final String jobTemplateName) throws IOException;
 
     void createJobFromTemplate(String newJobName, String templateName, List<JobParameterValue> parameterValues) throws Exception;
+    void updateJobFromTemplate(String jobName, String templateName, List<JobParameterValue> parameterValues) throws Exception;
 
     List<JobApplicationModel> getTemplatizedJobs(String templateName) throws IOException, Exception;
 

@@ -193,7 +193,7 @@ export class EditJob {
                     .flatMap(r => r)
                     .filter(r => r.jobName == this.jobName)
                     .subscribe(job => {
-                        var merged = _.map(job.config.parameters, param => this.merge(param, template);
+                        var merged = _.map(template, templateValue => this.merge(job.config.parameters, templateValue);
 
                         this.parameters = merged;
 
@@ -205,12 +205,16 @@ export class EditJob {
             });
     }
 
-    merge(parameter, template){
-        var templateParam = _.findWhere(template, { name : parameter.name });
+    merge(jobParameters, templateValue){
+        var jobParameter = _.findWhere(jobParameters, { name : templateValue.name });
 
-        var cloned = _.clone(parameter);
+        if(jobParameter === undefined){
+            return templateValue;
+        }
 
-        cloned.defaultValue = templateParam.defaultValue;
+        var cloned = _.clone(jobParameter);
+
+        cloned.defaultValue = templateValue.defaultValue;
 
         return cloned;
     }
@@ -220,7 +224,7 @@ export class EditJob {
         this.isCreateable = false;
         this.francoisApi.createJob(
             this.templateName,
-            new JobApplication(this.newJobName, this.parameters.filter(p => !!p.value)))
+            new JobApplication(this.jobName, this.parameters.filter(p => !!p.value)))
             .subscribe(r => {
                 console.log(r);
                 this.createSucceeded = true;
@@ -232,6 +236,6 @@ export class EditJob {
 
     setJobName(evt) {
         console.log(evt.target.value);
-        this.newJobName = evt.target.value;
+        this.jobName = evt.target.value;
     }
 }

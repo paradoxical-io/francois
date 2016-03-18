@@ -13,6 +13,7 @@ import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
 import io.paradoxical.francois.jenkins.templates.TemplateParameter;
 import io.paradoxical.francois.model.api.v1.TemplateApplicationRequest;
+import io.paradoxical.francois.model.api.v1.TemplateApplicationUpdateRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -101,16 +102,16 @@ public class FrancoisResource {
 
     @POST
     @Path("/templates/{templateName}/jobs")
-    @ApiOperation(value = "Create job")
+    @ApiOperation(value = "Update job")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
-    public Response createFromTemplate(@PathParam("templateName") String templateName, TemplateApplicationRequest templateApplicationRequest) {
+    public Response createFromTemplate(@PathParam("templateName") String templateName, TemplateApplicationUpdateRequest templateApplicationRequest) {
         try {
-            templateManager.createJobFromTemplate(templateApplicationRequest.getNewJobName(), templateName, templateApplicationRequest.getParameters());
+            templateManager.updateJobFromTemplate(templateApplicationRequest.getJobName(), templateName, templateApplicationRequest.getParameters());
 
-            return Response.created(URI.create(String.format("./%s", templateApplicationRequest.getNewJobName()))).build();
+            return Response.noContent().build();
         }
         catch (Exception e) {
-            logger.error(e, "Error");
+            logger.error(e, "Error updating job");
             return Response.serverError().build();
         }
     }

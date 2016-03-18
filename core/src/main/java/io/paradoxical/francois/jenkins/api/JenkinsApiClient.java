@@ -62,6 +62,10 @@ public final class JenkinsApiClient {
         return jenkinsApi.createJobRaw(jobName, createXmlRequest(configXml));
     }
 
+    public Call<JobModel> getJobConfigJson(String jobName) {
+        return jenkinsApi.getJobJson(jobName);
+    }
+
     public Call<ResponseBody> updateJob(String jobName, String configXml) {
         final RequestBody configXmlRequest = createXmlRequest(configXml);
         return jenkinsApi.updateJobRaw(jobName, configXmlRequest);
