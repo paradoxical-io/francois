@@ -1,25 +1,22 @@
 <main>
     <div class="row left-page end">
-        <h1>Create Job</h1>
+        <h1>Edit {{jobName}} </h1>
 
         <div>
             <span class="header">Parameters</span>
 
-            <div class="row">
-                <span class="large-4 columns">
-                    <input [(ng-model)]="newJobName" type="text" placeholder="New Job Name"/>
-                </span>
-                <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="createJob()">
-                    Create Job
-                </button>
-            </div>
             <div *ng-if="createSucceeded" class="row">
                 <div class="callout secondary">
-                    <h5>Create succeeded</h5>
+                    <h5>Save successful</h5>
                     <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
-                        View all jobs for <code>{{templateName}}</code>
+                        Return to jobs list for <code>{{templateName}}</code>
                     </a>
                 </div>
+            </div>
+            <div class="row">
+                <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="saveJob()">
+                    Save Job
+                </button>
             </div>
             <ul class="accordion" data-accordion role="tablist">
                 <li *ng-for="#param of parameters" class="accordion-item">

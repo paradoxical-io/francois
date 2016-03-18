@@ -1,5 +1,5 @@
 <main>
-    <div class="row">
+    <div class="row left-page ">
         <h1>Create Template</h1>
 
         <div>
@@ -9,7 +9,7 @@
                 <span class="large-4 columns">
                     <input [(ng-model)]="templateName" type="text" placeholder="New Template Name"/>
                 </span>
-                <button *ng-if="isCreateable" type="button" class="button large-2 columns right" (click)="createTemplate()">
+                <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="createTemplate()">
                     Create
                 </button>
             </div>

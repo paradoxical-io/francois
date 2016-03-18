@@ -9,7 +9,15 @@
     <artifactId>francois</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <description>A jenkins project manager</description>
     <name>francois</name>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <modules>
         <module>model</module>
@@ -24,6 +32,16 @@
         <tag>HEAD</tag>
     </scm>
 
+    <developers>
+        <developer>
+            <id>devshorts</id>
+            <name>Anton Kropp</name>
+        </developer>
+        <developer>
+            <id>jakeswenson</id>
+            <name>Jake Swenson</name>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -470,6 +488,17 @@
                     <deployAtEnd>true</deployAtEnd>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -492,7 +521,7 @@
                         </executions>
                         <configuration>
                             <useAgent>true</useAgent>
-                            <keyname>devshorts</keyname>
+                            <keyname>${env.GPG_USER}</keyname>
                         </configuration>
                     </plugin>
                 </plugins>
