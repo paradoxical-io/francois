@@ -32,7 +32,7 @@
         <div *ng-if="state.success" class="row">
             <div class="callout secondary">
                 <h5>Save successful</h5>
-                <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
+                <a [router-link]="['/ListJobs', { templateName: templateName }]" class="button">
                     Return to jobs list for <code>{{templateName}}</code>
                 </a>
             </div>

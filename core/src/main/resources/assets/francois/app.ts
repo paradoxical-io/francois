@@ -4,9 +4,13 @@ import {RouteConfig, LocationStrategy, HashLocationStrategy, RouterOutlet, ROUTE
 
 import {Router, Location, Route} from 'angular2/router';
 
-import {Templates, TemplateJobs, CreateJob, CreateTemplate, EditJob } from "./templates";
 import {TopNav} from "./top-nav";
 import {FrancoisApi} from "./services/francois";
+import {ListTemplates} from "./components/listTemplates";
+import {ListJobs} from "./components/templateJobs";
+import {EditJob} from "./components/editJobs";
+import {CreateTemplate} from "./components/createTemplate";
+import {CreateJob} from "./components/createJob";
 
 
 @Component({
@@ -17,11 +21,11 @@ import {FrancoisApi} from "./services/francois";
 })
 @RouteConfig([
     {path: '/', redirectTo: '/templates' },
-    {path: '/templates', component: Templates, as: 'Templates'},
-    {path: '/templates/:templateName/jobs', component: TemplateJobs, as: 'Jobs'},
+    {path: '/templates', component: ListTemplates, as: 'ListTemplates'},
+    {path: '/templates/:templateName/jobs', component: ListJobs, as: 'ListJobs'},
     {path: '/templates/:templateName/:jobName', component: EditJob, as: 'EditJobs'},
     {path: '/templates/new', component: CreateTemplate, as: 'CreateTemplate'},
-    {path: '/create/:templateName/new', component: CreateJob, as: 'Create'}
+    {path: '/create/:templateName/new', component: CreateJob, as: 'CreateJob'}
 ])
 class FrancoisApp {
 }

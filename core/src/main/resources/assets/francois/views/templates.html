@@ -10,7 +10,7 @@
             </tr>
             </thead>
             <tr *ng-for="#template of templates">
-                <td><a [router-link]="['/Jobs', { templateName: template.name }]" title="view jobs">{{template.name}}</a></td>
+                <td><a [router-link]="['/ListJobs', { templateName: template.name }]" title="view jobs">{{template.name}}</a></td>
                 <td>
                     <table>
                         <thead><tr><th>Name</th><th>Default</th></tr></thead>
@@ -21,7 +21,7 @@
                     </table>
                 </td>
                 <td>
-                    <a [router-link]="['/Create', { templateName: template.name }]" class="success button">USE {{template.name}}</a>
+                    <a [router-link]="['/CreateJob', { templateName: template.name }]" class="success button">USE {{template.name}}</a>
                 </td>
             </tr>
         </table>

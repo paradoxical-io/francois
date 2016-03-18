@@ -49,7 +49,7 @@ export class FrancoisApi {
     }
 
     updateJob(templateName:string, job:JobApplication) {
-        return this.http.put(`/api/v1/francois/templates/${templateName}/jobs/${job.jobName}`, JSON.stringify(job), {
+        return this.http.put(`/api/v1/francois/templates/${templateName}/jobs/${job.jobName}`, JSON.stringify(job), <ngHttp.RequestOptionsArgs>{
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -57,7 +57,7 @@ export class FrancoisApi {
     }
 
     createJob(templateName:string, job:JobApplication) {
-        return this.http.post(`/api/v1/francois/templates/${templateName}/jobs`, JSON.stringify(job), {
+        return this.http.post(`/api/v1/francois/templates/${templateName}/jobs`, JSON.stringify(job), <ngHttp.RequestOptionsArgs>{
             headers: {
                 'Content-Type': 'application/json'
             }
