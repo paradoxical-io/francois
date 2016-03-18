@@ -17,8 +17,7 @@ docker run -it \
     -e JENKINS_USER=francois \
     -e JENKINS_TOKEN=USER_JENKINS_TOKEN \
     -p 9090:9090 \ 
-    -p 9099:9099 \ 
-    -v `pwd`/logs/core:/data/logs \
+    -p 9099:9099 \
     paradoxical/francois
 ```
 
