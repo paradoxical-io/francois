@@ -9,12 +9,14 @@ import {Job} from "./../services/francois";
 import {Template} from "./../services/francois";
 import {JobEditParameter} from "./../services/francois";
 import {JobParameter} from "../services/francois";
+import {JenkinsFrame} from "./jenkinsFrame";
 
 declare var _;
+declare var globals:Globals;
 
 @Component({
     templateUrl: Consts.basePath + '/job-edit.html',
-    directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor, NgIf, CORE_DIRECTIVES],
+    directives: [FORM_DIRECTIVES, TopNav, ROUTER_DIRECTIVES, NgFor, NgIf, CORE_DIRECTIVES, JenkinsFrame],
 })
 export class EditJob {
 
@@ -24,6 +26,8 @@ export class EditJob {
 
     public jobName:string;
 
+    public jenkinsUrl:string = globals.jenkinsUrl;
+
     public state:StateTracking = new StateTracking();
 
     constructor(private francoisApi:FrancoisApi,
@@ -31,6 +35,7 @@ export class EditJob {
 
         this.templateName = routeParams.get('templateName');
         this.jobName = routeParams.get('jobName');
+        this.jenkinsUrl = globals.jenkinsUrl + "/job/" + this.jobName + "/configure"
 
         francoisApi.getTemplateParameters(this.templateName)
             .map(r => r.json())

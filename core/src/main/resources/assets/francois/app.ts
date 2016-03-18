@@ -11,6 +11,7 @@ import {ListJobs} from "./components/templateJobs";
 import {EditJob} from "./components/editJobs";
 import {CreateTemplate} from "./components/createTemplate";
 import {CreateJob} from "./components/createJob";
+import {EventDispatcherService} from "./components/eventDispatcherService";
 
 
 @Component({
@@ -20,7 +21,7 @@ import {CreateJob} from "./components/createJob";
                <router-outlet></router-outlet>`
 })
 @RouteConfig([
-    {path: '/', redirectTo: '/templates' },
+    {path: '/', redirectTo: '/templates'},
     {path: '/templates', component: ListTemplates, as: 'ListTemplates'},
     {path: '/templates/:templateName/jobs', component: ListJobs, as: 'ListJobs'},
     {path: '/templates/:templateName/:jobName', component: EditJob, as: 'EditJobs'},
@@ -34,5 +35,6 @@ bootstrap(FrancoisApp, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     FrancoisApi,
+    EventDispatcherService,
     provide(LocationStrategy, {useClass: HashLocationStrategy})
 ]);

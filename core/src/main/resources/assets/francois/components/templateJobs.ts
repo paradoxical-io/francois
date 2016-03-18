@@ -7,6 +7,7 @@ import {StateTracking} from "./../stateTracking"
 import {Job} from "./../services/francois";
 import {Template} from "./../services/francois";
 import {JobEditParameter} from "./../services/francois";
+import {EventDispatcherService} from "./eventDispatcherService";
 
 declare var _;
 declare var globals:Globals;

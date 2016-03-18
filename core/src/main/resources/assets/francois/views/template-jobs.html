@@ -14,16 +14,10 @@
             <tr *ng-for="#job of jobs">
                 <td>
                     <a href="{{jobUrl(job)}}" target="_jenkins"><img src="/assets/images/cooljenkins.png"/></a>
-                    <a [router-link]="['/EditJobs', { jobName: job.jobName, templateName: templateName }]">{{job.jobName}}</a>
-                </td>
+                    <a [router-link]="['/EditJobs', { jobName: job.jobName, templateName: templateName }]" >{{job.jobName}}</a></td>
                 <td>
                     <table>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Value</th>
-                        </tr>
-                        </thead>
+                        <thead><tr><th>Name</th><th>Value</th></tr></thead>
                         <tr *ng-for="#param of job.config.parameters">
                             <td>{{param.name}}</td>
                             <td><code>{{param.value}}</code></td>
