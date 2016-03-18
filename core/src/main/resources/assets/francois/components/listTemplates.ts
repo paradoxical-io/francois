@@ -15,7 +15,7 @@ import {JobEditParameter} from "./../services/francois";
 })
 export class ListTemplates {
 
-    public templates:any[] = [];
+    public templates:Template[] = [];
 
     constructor(private francoisApi:FrancoisApi) {
         var response = francoisApi.getTemplates();
@@ -23,9 +23,10 @@ export class ListTemplates {
         console.dir(response);
 
         response.map(r => r.json()).subscribe(
-            (value) => value.forEach((template:Template) => {
+            (value:Template[]) => value.forEach((template:Template) => {
                 this.templates.push(template);
                 template.parameters = [];
+
                 francoisApi.getTemplateParameters(template.name)
                     .map(r => r.json())
                     .subscribe(params => {

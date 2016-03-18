@@ -8,7 +8,9 @@ import {StateTracking} from "./../stateTracking"
 import {Job} from "./../services/francois";
 import {Template} from "./../services/francois";
 import {JobEditParameter} from "./../services/francois";
-import {_} from "../common/common";
+import {JobParameter} from "../services/francois";
+
+declare var _;
 
 @Component({
     templateUrl: Consts.basePath + '/job-edit.html',
@@ -51,20 +53,15 @@ export class EditJob {
             });
     }
 
-    merge(jobParameters:any[], templateParameter):JobEditParameter {
+    merge(jobParameters:JobParameter[], templateParameter):JobEditParameter {
         // find the job parameter that matches the template parameter
-        var jobParameter = _.findWhere(jobParameters, {name: templateParameter.name});
+        var jobParameter:JobParameter = _.findWhere(jobParameters, {name: templateParameter.name});
 
         if (jobParameter === undefined) {
             return templateParameter;
         }
 
-        var cloned = _.clone(jobParameter);
-
-        // return a new job parameter that has the default value merged from the template
-        cloned.defaultValue = templateParameter.defaultValue;
-
-        return cloned;
+        return new JobEditParameter(jobParameter.name, templateParameter.defaultValue, jobParameter.value)
     }
 
     saveJob() {

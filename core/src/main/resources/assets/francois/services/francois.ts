@@ -26,6 +26,11 @@ export class JobEditParameter {
     }
 }
 
+export class JobParameter {
+    constructor(public name:string, public value:String) {
+    }
+}
+
 @Injectable()
 export class FrancoisApi {
 

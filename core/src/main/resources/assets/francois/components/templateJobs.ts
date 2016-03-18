@@ -17,7 +17,7 @@ declare var globals:Globals;
 })
 export class ListJobs {
 
-    public jobs:any[] = [];
+    public jobs:Job[] = [];
 
     public templateName:string;
 
@@ -34,7 +34,7 @@ export class ListJobs {
 
         response.map(r => r.json())
             .subscribe(
-                (value) => value.forEach(job => {
+                (value:Job[]) => value.forEach((job:Job) => {
                     this.jobs.push(job);
                 }),
                 error => console.error(error),
