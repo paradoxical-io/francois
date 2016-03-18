@@ -1,5 +1,5 @@
 <main>
-    <div class="row">
+    <div class="row left-page end">
         <h1>Create Job</h1>
 
         <div>
@@ -9,18 +9,11 @@
                 <span class="large-4 columns">
                     <input [(ng-model)]="newJobName" type="text" placeholder="New Job Name"/>
                 </span>
-                <button *ng-if="isCreateable" type="button" class="button large-2 columns right" (click)="createJob()">
+                <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="createJob()">
                     Create Job
                 </button>
             </div>
-            <div *ng-if="createSucceeded" class="row">
-                <div class="callout secondary">
-                    <h5>Create succeeded</h5>
-                    <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
-                        View all jobs for <code>{{templateName}}</code>
-                    </a>
-                </div>
-            </div>
+
             <ul class="accordion" data-accordion role="tablist">
                 <li *ng-for="#param of parameters" class="accordion-item">
 
@@ -37,6 +30,25 @@
                     </div>
                 </li>
             </ul>
+
+            <div *ng-if="createSucceeded" class="row">
+                <div class="callout secondary">
+                    <h5>Create succeeded</h5>
+                    <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
+                        View all jobs for <code>{{templateName}}</code>
+                    </a>
+                </div>
+            </div>
+            <div *ng-if="createFailed" class="row">
+                <div class="callout warning">
+                    <h5>Job not created</h5>
+
+                    <div>
+                        Does this job name already exist? Try a new name
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </main>

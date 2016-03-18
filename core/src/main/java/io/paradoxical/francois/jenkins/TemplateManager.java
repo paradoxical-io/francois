@@ -7,7 +7,6 @@ import com.google.inject.Inject;
 import com.squareup.okhttp.ResponseBody;
 import io.paradoxical.francois.exceptions.JobCreateFailureException;
 import io.paradoxical.francois.jenkins.api.ApiConstants;
-import io.paradoxical.francois.jenkins.api.JenkinsApi;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
@@ -83,6 +82,17 @@ public class TemplateManager implements JenkinsTemplateManager {
         }
 
         return Collections.emptyList();
+    }
+
+    @Override
+    public void updateJobFromTemplate(final String jobName, final String templateName, final List<JobParameterValue> parameterValues) throws Exception {
+        final JobTemplate jobTemplate = getJobTemplate(templateName);
+
+        final List<PromotionTemplate> promotions = promotionTemplateLoader.getPromotionTemplates(templateName);
+
+        final JobApplicationModel jobApplicationModel = new JobApplicationModel(jobName, new JobTemplateApplicationConfig(templateName, parameterValues));
+
+        updateJobFromTemplate(jobTemplate, promotions, jobApplicationModel);
     }
 
     @Override

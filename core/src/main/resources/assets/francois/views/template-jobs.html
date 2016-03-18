@@ -1,5 +1,5 @@
 <main>
-    <div class="row">
+    <div class="row left-page end">
         <h1>Jobs for {{templateName}}</h1>
         <a (click)="reapplyTemplate($event);" href="#" class="button">Reapply template to all jobs</a>
         <table>
@@ -10,7 +10,7 @@
             </tr>
             </thead>
             <tr *ng-for="#job of jobs">
-                <td>{{job.jobName}}</td>
+                <td><a [router-link]="['/EditJobs', { jobName: job.jobName, templateName: templateName }]" >{{job.jobName}}</a></td>
                 <td>
                     <table>
                         <thead><tr><th>Name</th><th>Value</th></tr></thead>

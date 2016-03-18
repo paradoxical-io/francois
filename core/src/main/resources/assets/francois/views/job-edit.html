@@ -1,0 +1,41 @@
+<main>
+    <div class="row left-page end">
+        <h1>Edit {{jobName}} </h1>
+
+        <div>
+            <span class="header">Parameters</span>
+
+            <ul class="accordion" data-accordion role="tablist">
+                <li *ng-for="#param of parameters" class="accordion-item">
+
+                    <a [href]="'#' + param.name"
+                       role="tab"
+                       class="accordion-title"
+                       [id]="param.name + '-link'"
+                       [attr.aria-controls]="param.name">{{param.name}}
+                        &nbsp;&nbsp;&nbsp;<code>{{param.defaultValue}}</code></a>
+
+                    <div [id]="param.name" class="accordion-content" role="tabpanel" data-tab-content
+                         [attr.aria-labelledby]="param.name + '-link'">
+                        <input [(ng-model)]="param.value" [placeholder]="param.defaultValue" type="text"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row  left-page end">
+        <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="saveJob()">
+            Save Job
+        </button>
+    </div>
+    <div class="row  left-page end">
+        <div *ng-if="createSucceeded" class="row">
+            <div class="callout secondary">
+                <h5>Save successful</h5>
+                <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
+                    Return to jobs list for <code>{{templateName}}</code>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>

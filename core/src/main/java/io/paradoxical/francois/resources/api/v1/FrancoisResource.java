@@ -12,7 +12,7 @@ import io.paradoxical.francois.jenkins.JobApplicationModel;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
 import io.paradoxical.francois.jenkins.templates.TemplateParameter;
-import io.paradoxical.francois.model.api.v1.TemplateApplicationRequest;
+import io.paradoxical.francois.model.api.v1.TemplateApplicationUpdateRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 @Path("api/v1/francois")
 @Api(value = "api/v1/francois", description = "Francois api")
@@ -99,18 +100,43 @@ public class FrancoisResource {
         }
     }
 
-    @POST
-    @Path("/templates/{templateName}/jobs")
-    @ApiOperation(value = "Create job")
+    @PUT
+    @Path("/templates/{templateName}/jobs/{jobName}")
+    @ApiOperation(value = "Update job")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
-    public Response createFromTemplate(@PathParam("templateName") String templateName, TemplateApplicationRequest templateApplicationRequest) {
+    public Response updateJob(
+            @PathParam("templateName") String templateName,
+            @PathParam("jobName") String jobName,
+            TemplateApplicationUpdateRequest templateApplicationRequest) {
         try {
-            templateManager.createJobFromTemplate(templateApplicationRequest.getNewJobName(), templateName, templateApplicationRequest.getParameters());
+            if (!Objects.equals(templateApplicationRequest.getJobName(), jobName)) {
+                return Response.serverError().entity(new Object() {
+                    public String message = "Job name path is not equal to job name body";
+                }).build();
+            }
+            templateManager.updateJobFromTemplate(templateApplicationRequest.getJobName(), templateName, templateApplicationRequest.getParameters());
 
-            return Response.created(URI.create(String.format("./%s", templateApplicationRequest.getNewJobName()))).build();
+            return Response.noContent().build();
         }
         catch (Exception e) {
-            logger.error(e, "Error");
+            logger.error(e, "Error updating job");
+
+            return Response.serverError().build();
+        }
+    }
+
+    @POST
+    @Path("/templates/{templateName}/jobs")
+    @ApiOperation(value = "Update job")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
+    public Response createFromTemplate(@PathParam("templateName") String templateName, TemplateApplicationUpdateRequest templateApplicationRequest) {
+        try {
+            templateManager.createJobFromTemplate(templateApplicationRequest.getJobName(), templateName, templateApplicationRequest.getParameters());
+
+            return Response.noContent().build();
+        }
+        catch (Exception e) {
+            logger.error(e, "Error updating job");
             return Response.serverError().build();
         }
     }
