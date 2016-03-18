@@ -1,6 +1,7 @@
 # io.paradoxical.francois
 
 [![Build Status](https://travis-ci.org/paradoxical-io/francois.svg?branch=master)](https://travis-ci.org/paradoxical-io/francois)
+[![](https://badge.imagelayers.io/paradoxical/francois:latest.svg)](https://imagelayers.io/?images=paradoxical/francois:latest 'Get your own badge on imagelayers.io')
 
 François is a dropwizard.io api and web application for templatizing jenkins jobs. François is available as a docker image: https://hub.docker.com/r/paradoxical/francois/
 
