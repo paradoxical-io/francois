@@ -3,9 +3,13 @@ import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TopNav} from './top-nav'
 import {FrancoisApi, JobApplication} from './services/francois'
 import Collator = Intl.Collator;
-import {Consts} from "./consts"
+import {Consts, Globals} from "./consts"
+import {StateTracking} from "./stateTracking"
+import {Job} from "./services/francois";
+import {Template} from "./services/francois";
 
 declare var _;
+declare var globals:Globals;
 
 export class HttpUtils {
     public static success(code) {
@@ -27,7 +31,7 @@ export class Templates {
         console.dir(response);
 
         response.map(r => r.json()).subscribe(
-            (value) => value.forEach(template => {
+            (value) => value.forEach((template:Template) => {
                 this.templates.push(template);
                 template.parameters = [];
                 francoisApi.getTemplateParameters(template.name)
@@ -52,6 +56,8 @@ export class TemplateJobs {
 
     public templateName:string;
 
+    public jenkinsUrl:string = globals.jenkinsUrl;
+
     constructor(private francoisApi:FrancoisApi, params:RouteParams) {
 
         this.templateName = params.get('templateName');
@@ -67,6 +73,10 @@ export class TemplateJobs {
                 }),
                 error => console.error(error),
                 c => console.log("Jobs Loaded"));
+    }
+
+    public jobUrl(job:Job) {
+        return this.jenkinsUrl + "/job/" + job.jobName;
     }
 
     reapplyTemplate($event:MouseEvent) {
@@ -93,33 +103,31 @@ export class CreateTemplate {
 
     public templateName:string;
 
-    public isCreateable:boolean = true;
-    public createSucceeded:boolean = false;
-    public createFailed:boolean = false;
+    public state:StateTracking = new StateTracking(true);
 
     constructor(private francoisApi:FrancoisApi) {
 
     }
 
     createTemplate() {
-        this.isCreateable = false;
-        this.createSucceeded = false;
-        this.createFailed = false;
+        this.state.reset();
+
         this.francoisApi.createTemplate(this.templateName)
             .subscribe(r => {
                 console.log(r);
 
                 if (!HttpUtils.success(r.status)) {
-                    this.createFailed = true;
-                    this.isCreateable = true;
+                    this.state.setFailureEdit();
                 }
                 else {
-                    this.createSucceeded = true;
+                    this.state.success = true;
                 }
             }, oops => {
                 console.log(oops);
-                this.isCreateable = true;
-                this.createFailed = true;
+
+                this.state.failure = true;
+                this.state.isEditable = true;
+
             }, comp => console.log('Create finished'));
     }
 }
@@ -136,9 +144,7 @@ export class CreateJob {
 
     public newJobName:string = '';
 
-    public isCreateable:boolean = false;
-    public createSucceeded:boolean = false;
-    public createFailed:boolean = false;
+    public state:StateTracking = new StateTracking(true);
 
     constructor(private francoisApi:FrancoisApi,
                 private routeParams:RouteParams) {
@@ -153,7 +159,7 @@ export class CreateJob {
                 params.forEach(p => this.parameters.push(p));
                 setTimeout(() => {
                     $(document).foundation();
-                    this.isCreateable = true;
+                    this.state.isEditable = true;
                 }, 30);
             });
     }
@@ -161,9 +167,7 @@ export class CreateJob {
     createJob() {
         console.log(this.parameters);
 
-        this.isCreateable = false;
-        this.createSucceeded = false;
-        this.createFailed = false;
+        this.state.reset();
 
         this.francoisApi.createJob(
             this.templateName,
@@ -172,16 +176,15 @@ export class CreateJob {
                 console.log(r);
 
                 if (!HttpUtils.success(r.status)) {
-                    this.createFailed = true;
-                    this.isCreateable = true;
+                    this.state.setFailureEdit();
                 }
                 else {
-                    this.createSucceeded = true;
+                    this.state.success = true;
                 }
             }, oops => {
                 console.log(oops);
-                this.isCreateable = true;
-                this.createFailed = true;
+
+                this.state.setFailureEdit();
             }, comp => console.log('Create finished'));
     }
 
@@ -204,8 +207,7 @@ export class EditJob {
 
     public jobName:string;
 
-    public isCreateable:boolean = false;
-    public createSucceeded:boolean = false;
+    public state:StateTracking = new StateTracking();
 
     constructor(private francoisApi:FrancoisApi,
                 private routeParams:RouteParams) {
@@ -229,7 +231,7 @@ export class EditJob {
 
                         setTimeout(() => {
                             $(document).foundation();
-                            this.isCreateable = true;
+                            this.state.isEditable = true;
                         }, 30);
                     });
             });
@@ -251,22 +253,25 @@ export class EditJob {
 
     saveJob() {
         console.log(this.parameters);
-        this.isCreateable = false;
+
+        this.state.reset();
+
         this.francoisApi.updateJob(
             this.templateName,
             new JobApplication(this.jobName, this.parameters.filter(p => !!p.value)))
             .subscribe(r => {
                 console.log(r);
-                this.createSucceeded = true;
-                this.isCreateable = true;
+
+                this.state.success = true;
+                this.state.isEditable = true;
 
                 setTimeout(() => {
                     $(document).foundation();
-                    this.createSucceeded = false;
+                    this.state.success = false;
                 }, 5000);
             }, oops => {
                 console.log(oops);
-                this.isCreateable = true;
+                this.state.isEditable = true;
             }, comp => console.log('Create finished'));
     }
 

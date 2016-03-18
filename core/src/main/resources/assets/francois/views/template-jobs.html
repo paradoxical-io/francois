@@ -1,7 +1,9 @@
 <main>
-    <div class="row left-page end">
+    <div class="row left-page">
         <h1>Jobs for {{templateName}}</h1>
-        <a (click)="reapplyTemplate($event);" href="#" class="button">Reapply template to all jobs</a>
+    </div>
+
+    <div class="row left-page end">
         <table>
             <thead>
             <tr>
@@ -10,10 +12,18 @@
             </tr>
             </thead>
             <tr *ng-for="#job of jobs">
-                <td><a [router-link]="['/EditJobs', { jobName: job.jobName, templateName: templateName }]" >{{job.jobName}}</a></td>
+                <td>
+                    <a href="{{jobUrl(job)}}" target="_jenkins"><img src="/assets/images/cooljenkins.png"/></a>
+                    <a [router-link]="['/EditJobs', { jobName: job.jobName, templateName: templateName }]">{{job.jobName}}</a>
+                </td>
                 <td>
                     <table>
-                        <thead><tr><th>Name</th><th>Value</th></tr></thead>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
                         <tr *ng-for="#param of job.config.parameters">
                             <td>{{param.name}}</td>
                             <td><code>{{param.value}}</code></td>
@@ -22,5 +32,9 @@
                 </td>
             </tr>
         </table>
+    </div>
+
+    <div class="row left-page end">
+        <a (click)="reapplyTemplate($event);" href="#" class="button">Reapply template to all jobs</a>
     </div>
 </main>
