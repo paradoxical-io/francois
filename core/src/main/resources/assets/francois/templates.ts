@@ -7,6 +7,7 @@ import {Consts, Globals} from "./consts"
 import {StateTracking} from "./stateTracking"
 import {Job} from "./services/francois";
 import {Template} from "./services/francois";
+import {JobEditParameter} from "./services/francois";
 
 declare var _;
 declare var globals:Globals;
@@ -76,7 +77,7 @@ export class TemplateJobs {
     }
 
     public jobUrl(job:Job) {
-        return this.jenkinsUrl + "/job/" + job.jobName;
+        return this.jenkinsUrl + "/job/" + job.jobName + "/configure";
     }
 
     reapplyTemplate($event:MouseEvent) {
@@ -201,7 +202,7 @@ export class CreateJob {
 })
 export class EditJob {
 
-    public parameters:any[] = [];
+    public parameters:JobEditParameter [] = [];
 
     public templateName:string;
 
@@ -217,15 +218,16 @@ export class EditJob {
 
         francoisApi.getTemplateParameters(this.templateName)
             .map(r => r.json())
-            .subscribe(template => {
+            .subscribe(templateParameters => {
                 var jobs = francoisApi.getTemplateJobs(this.templateName);
 
                 jobs
                     .map(r => r.json())
                     .flatMap(r => r)
+                    // find the job we want
                     .filter(r => r.jobName == this.jobName)
-                    .subscribe(job => {
-                        var merged = _.map(template, templateValue => this.merge(job.config.parameters, templateValue);
+                    .subscribe((job:Job) => {
+                        var merged:JobEditParameter [] = _.map(templateParameters, templateParameter => this.merge(job.config.parameters, templateParameter);
 
                         this.parameters = merged;
 
@@ -237,16 +239,18 @@ export class EditJob {
             });
     }
 
-    merge(jobParameters, templateValue) {
-        var jobParameter = _.findWhere(jobParameters, {name: templateValue.name});
+    merge(jobParameters:any[], templateParameter):JobEditParameter {
+        // find the job parameter that matches the template parameter
+        var jobParameter = _.findWhere(jobParameters, {name: templateParameter.name});
 
         if (jobParameter === undefined) {
-            return templateValue;
+            return templateParameter;
         }
 
         var cloned = _.clone(jobParameter);
 
-        cloned.defaultValue = templateValue.defaultValue;
+        // return a new job parameter that has the default value merged from the template
+        cloned.defaultValue = templateParameter.defaultValue;
 
         return cloned;
     }
