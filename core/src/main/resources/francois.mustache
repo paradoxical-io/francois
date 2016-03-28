@@ -18,6 +18,10 @@
 <script src="/assets/foundation-6/js/foundation.js"></script>
 
 <script>
+    var globals = new function(){
+       this.jenkinsUrl =  "{{jenkinsUrl}}";
+    }();
+
     System.config({
         baseURL: '/',
         transpiler: 'typescript',

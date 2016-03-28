@@ -9,7 +9,7 @@
                 <span class="large-4 columns">
                     <input [(ng-model)]="newJobName" type="text" placeholder="New Job Name"/>
                 </span>
-                <button *ng-if="isCreateable" type="button" class="button large-2 columns right end" (click)="createJob()">
+                <button *ng-if="state.isEditable" type="button" class="button large-2 columns right end" (click)="createJob()">
                     Create Job
                 </button>
             </div>
@@ -31,15 +31,15 @@
                 </li>
             </ul>
 
-            <div *ng-if="createSucceeded" class="row">
+            <div *ng-if="state.success" class="row">
                 <div class="callout secondary">
                     <h5>Create succeeded</h5>
-                    <a [router-link]="['/Jobs', { templateName: templateName }]" class="button">
+                    <a [router-link]="['/ListJobs', { templateName: templateName }]" class="button">
                         View all jobs for <code>{{templateName}}</code>
                     </a>
                 </div>
             </div>
-            <div *ng-if="createFailed" class="row">
+            <div *ng-if="state.failure" class="row">
                 <div class="callout warning">
                     <h5>Job not created</h5>
 
