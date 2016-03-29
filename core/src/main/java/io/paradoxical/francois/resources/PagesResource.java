@@ -21,20 +21,8 @@ public class PagesResource {
     }
 
     @GET
-    @Path("/swagger")
-    public DefaultMustacheTemplateView swagger() {
-        return new DefaultMustacheTemplateView("/swagger.mustache");
-    }
-
-    @GET
     public FrancoisView francois() {
         return new FrancoisView("/francois.mustache", configuration.getJenkinsConfiguration().getUrl());
-    }
-
-    public static class DefaultMustacheTemplateView extends View {
-        protected DefaultMustacheTemplateView(String templateName) {
-            super(templateName);
-        }
     }
 
     public static class FrancoisView extends View {

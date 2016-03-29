@@ -8,7 +8,7 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-@AllArgsConstructor(onConstructor = @_(@JsonCreator))
+@AllArgsConstructor(onConstructor = @__(@JsonCreator))
 public class JobDefinition {
     @NonNull
     JobTemplate template;
