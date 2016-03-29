@@ -66,24 +66,6 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
         initializeDepedencyInjection(bootstrap);
     }
 
-    public static class SwaggerResources extends DefaultSwaggerResourcesLocator {
-        public SwaggerResources(@NonNull final SwaggerConfiguration swaggerConfig) {
-            super(swaggerConfig);
-        }
-
-        @Override
-        @Path("/api")
-        public SwaggerApiResource api() {
-            return super.api();
-        }
-
-        @Override
-        @Path("/api/ui")
-        public SwaggerUIResource ui() {
-            return super.ui();
-        }
-    }
-
     private void initializeViews(final Bootstrap<ServiceConfiguration> bootstrap) {
         List<ViewRenderer> viewRenders = new ArrayList<>();
 
