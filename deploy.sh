@@ -26,7 +26,8 @@ if [ "${IS_SECURE_BUILD}" ]; then
         docker push paradoxical/francois:${TRAVIS_TAG}
       fi
 
-      docker push paradoxical/francois
-
+      if [ "$TRAVIS_BRANCH" = "master" ]; then
+        docker push paradoxical/francois
+      fi
   fi
 fi
