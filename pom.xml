@@ -88,7 +88,7 @@
         <javaslang.version>2.0.0-RC1</javaslang.version>
         <commons.io>2.4</commons.io>
 
-        <dropwizard.swagger.version>2.0-SNAPSHOT</dropwizard.swagger.version>
+        <dropwizard.swagger.version>2.1</dropwizard.swagger.version>
         <swagger.version>1.5.6</swagger.version>
 
         <jackson.version>2.6.4</jackson.version>
