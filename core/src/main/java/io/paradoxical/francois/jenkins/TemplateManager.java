@@ -226,7 +226,7 @@ public class TemplateManager implements JenkinsTemplateManager {
 
     private JobTemplateApplicationConfig loadTemplateConfig(final String description) {
         try {
-            return new ObjectMapper().readValue(description, JobTemplateApplicationConfig.class);
+            return new ObjectMapper().readValue(description.replace("<pre>", "").replace("</pre>", ""), JobTemplateApplicationConfig.class);
         }
         catch (IOException e) {
             return null;
