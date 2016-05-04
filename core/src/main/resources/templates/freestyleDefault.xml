@@ -1,6 +1,6 @@
 <project>
     <actions/>
-    <description>{$ Francois.Template.Params $}</description>
+    <description>&lt;pre&gt;&#10;{$ Francois.Template.Params $}&#10;&lt;/pre&gt;&#10;&lt;br/&gt;&lt;hr/&gt;&lt;br/&gt;&#10;</description>
     <keepDependencies>false</keepDependencies>
     <properties/>
     <scm class="hudson.scm.NullSCM"/>
