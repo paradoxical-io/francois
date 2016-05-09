@@ -108,7 +108,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
                 setContact("admin@francois.io");
                 setPrettyPrint(true);
 
-                setScan(true);
+                setBasePath(environment.getApplicationContext().getContextPath());
 
                 setVersion("1.0");
             }
