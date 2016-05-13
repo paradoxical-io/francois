@@ -179,18 +179,22 @@ public class TemplateManager implements JenkinsTemplateManager {
 
                        if (!promotionCreateResponse.isSuccess()) {
                            if (promotionCreateResponse.code() == 404) {
-                               final Response<ResponseBody> createResponse = jenkinsClient.createPromotion(jobName, promotion.getPromotionName(), promotionConfig)
-                                                                                          .execute();
-
-                               if (!createResponse.isSuccess()) {
-                                   throw new RuntimeException(String.format("Failed to create promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
-                               }
+                               createPromotion(jobName, promotion, promotionConfig);
                            }
                            else {
                                throw new RuntimeException(String.format("Failed to update promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
                            }
                        }
                    }));
+    }
+
+    private void createPromotion(final String jobName, final PromotionTemplate promotion, final String promotionConfig) throws IOException {
+        final Response<ResponseBody> createResponse = jenkinsClient.createPromotion(jobName, promotion.getPromotionName(), promotionConfig)
+                                                                   .execute();
+
+        if (!createResponse.isSuccess()) {
+            throw new RuntimeException(String.format("Failed to create promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
+        }
     }
 
     private String saveJobParameters(final String templateName, final String configXml, final List<JobParameterValue> parameterValues) throws Exception {
