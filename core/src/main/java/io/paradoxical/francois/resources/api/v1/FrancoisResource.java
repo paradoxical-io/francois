@@ -14,18 +14,21 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Path("api/v1/francois")
 @Api(value = "api/v1/francois", description = "Francois api")
@@ -120,6 +123,24 @@ public class FrancoisResource {
         }
         catch (Exception e) {
             logger.error(e, "Error updating job");
+
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/jobs")
+    @ApiOperation(value = "Search jobs")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
+    public Response searchJobs(
+            @QueryParam("search") String searchString) {
+        try {
+            final List<JobApplicationModel> jobApplicationModels = templateManager.listJobs(Optional.ofNullable(searchString));
+
+            return Response.ok(jobApplicationModels).build();
+        }
+        catch (Exception e) {
+            logger.error(e, "Error searching for jobs");
 
             return Response.serverError().build();
         }
