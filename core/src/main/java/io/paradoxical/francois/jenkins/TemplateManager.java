@@ -9,6 +9,7 @@ import io.paradoxical.francois.exceptions.JobCreateFailureException;
 import io.paradoxical.francois.jenkins.api.ApiConstants;
 import io.paradoxical.francois.jenkins.api.JenkinsApiClient;
 import io.paradoxical.francois.jenkins.api.JobList;
+import io.paradoxical.francois.jenkins.api.JobModel;
 import io.paradoxical.francois.jenkins.templates.JobParameterValue;
 import io.paradoxical.francois.jenkins.templates.JobTemplate;
 import io.paradoxical.francois.jenkins.templates.JobTemplateApplicationConfig;
@@ -22,7 +23,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -67,16 +70,25 @@ public class TemplateManager implements JenkinsTemplateManager {
     }
 
     @Override
+    public List<JobApplicationModel> listJobs(final Optional<String> searchSubstring) throws IOException {
+        List<JobModel> jobs = jenkinsClient.getTemplatizedJobs().execute().body().getJobs();
+
+        if (searchSubstring.isPresent()) {
+            jobs = jobs.stream().filter(j -> j.getName()
+                                              .toLowerCase()
+                                              .contains(searchSubstring.get().toLowerCase()))
+                       .collect(Collectors.toList());
+        }
+
+        return jobs.stream().map(this::toFullApplicationMode).collect(Collectors.toList());
+    }
+
+    @Override
     public List<JobApplicationModel> getTemplatizedJobs(final String templateName) throws Exception {
         final Response<JobList> response = jenkinsClient.getTemplatizedJobs().execute();
 
         if (response.isSuccess()) {
-
-            final List<JobApplicationModel> jobModels = response.body().getJobs().stream().map(jobModel -> {
-                final JobTemplateApplicationConfig config = loadTemplateConfig(jobModel.getDescription());
-
-                return new JobApplicationModel(jobModel.getName(), config);
-            }).collect(toList());
+            final List<JobApplicationModel> jobModels = response.body().getJobs().stream().map(this::toFullApplicationMode).collect(toList());
 
             return jobModels.stream().filter(jobModel -> isInstanceOfTemplate(templateName, jobModel)).collect(toList());
         }
@@ -178,9 +190,23 @@ public class TemplateManager implements JenkinsTemplateManager {
                                             .execute();
 
                        if (!promotionCreateResponse.isSuccess()) {
-                           throw new RuntimeException(String.format("Failed to update promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
+                           if (promotionCreateResponse.code() == 404) {
+                               createPromotion(jobName, promotion, promotionConfig);
+                           }
+                           else {
+                               throw new RuntimeException(String.format("Failed to update promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
+                           }
                        }
                    }));
+    }
+
+    private void createPromotion(final String jobName, final PromotionTemplate promotion, final String promotionConfig) throws IOException {
+        final Response<ResponseBody> createResponse = jenkinsClient.createPromotion(jobName, promotion.getPromotionName(), promotionConfig)
+                                                                   .execute();
+
+        if (!createResponse.isSuccess()) {
+            throw new RuntimeException(String.format("Failed to create promotion '%s' on Job '%s'", promotion.getPromotionName(), jobName));
+        }
     }
 
     private String saveJobParameters(final String templateName, final String configXml, final List<JobParameterValue> parameterValues) throws Exception {
@@ -226,10 +252,16 @@ public class TemplateManager implements JenkinsTemplateManager {
 
     private JobTemplateApplicationConfig loadTemplateConfig(final String description) {
         try {
-            return new ObjectMapper().readValue(description, JobTemplateApplicationConfig.class);
+            return new ObjectMapper().readValue(description.replace("<pre>", "").replace("</pre>", ""), JobTemplateApplicationConfig.class);
         }
         catch (IOException e) {
             return null;
         }
+    }
+
+    private JobApplicationModel toFullApplicationMode(JobModel jobModel) {
+        final JobTemplateApplicationConfig config = loadTemplateConfig(jobModel.getDescription());
+
+        return new JobApplicationModel(jobModel.getName(), config);
     }
 }

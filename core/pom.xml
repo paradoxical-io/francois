@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.paradoxical</groupId>
         <artifactId>francois</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -141,6 +141,11 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
         </dependency>
 
         <dependency>

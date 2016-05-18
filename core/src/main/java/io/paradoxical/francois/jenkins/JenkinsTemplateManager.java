@@ -7,11 +7,14 @@ import io.paradoxical.francois.jenkins.templates.TemplateParameter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface JenkinsTemplateManager {
     List<TemplateParameter> getAllParameters(final String templateName) throws IOException;
 
     JobTemplate getJobTemplate(final String jobTemplateName) throws IOException;
+
+    List<JobApplicationModel> listJobs(final Optional<String> searchFilter) throws IOException;
 
     void createJobFromTemplate(String newJobName, String templateName, List<JobParameterValue> parameterValues) throws Exception;
     void updateJobFromTemplate(String jobName, String templateName, List<JobParameterValue> parameterValues) throws Exception;
