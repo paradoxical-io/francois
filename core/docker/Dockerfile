@@ -1,8 +1,7 @@
- FROM alpine:3.2
+FROM alpine:3.3
 
- RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-     && apk add --update openjdk8-jre-base \
-     && rm /var/cache/apk/*
+RUN apk --no-cache add openjdk8  &&\
+    rm -rf /tmp/*
 
 ADD data /data
 
